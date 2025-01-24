@@ -55,7 +55,7 @@ export default function Home() {
 
   const generateImage = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (images.length >= 6) {
+    if (images.length >= 3) {
       alert("Comic is full! Reset to start over.");
       return;
     }
@@ -107,10 +107,10 @@ export default function Home() {
       <h1 className="text-4xl font-bold mb-8 text-center p-4 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-200 border-4 border-white" style={{ fontFamily: 'Comic Sans MS, cursive' }}>
         Julian&apos;s Comic Adventure!
       </h1>
-      
+
       {/* Comic Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-8 w-full max-w-4xl">
-        {[...Array(6)].map((_, index) => (
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 w-full max-w-4xl">
+        {[...Array(3)].map((_, index) => (
           <div key={index} className="aspect-square border-4 border-purple-400 rounded-2xl p-2 relative bg-white shadow-lg transform hover:scale-105 transition-transform duration-200 max-h-[300px]">
             {images[index] ? (
               <>
@@ -171,7 +171,7 @@ export default function Home() {
           <div className="flex gap-4">
             <button 
               type="submit" 
-              disabled={loading || images.length >= 6}
+              disabled={loading || images.length >= 3}
               className="flex-1 px-6 py-4 bg-gradient-to-r from-purple-400 to-pink-500 text-white rounded-xl font-bold shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105 transition-all duration-200 border-2 border-white"
               style={{ fontFamily: 'Comic Sans MS, cursive' }}
             >
@@ -187,7 +187,7 @@ export default function Home() {
             </button>
           </div>
           <p className="text-center text-purple-600 font-bold animate-pulse" style={{ fontFamily: 'Comic Sans MS, cursive' }}>
-            {6 - images.length} panels remaining! ✨
+            {3 - images.length} panels remaining! ✨
           </p>
         </form>
 

@@ -30,7 +30,7 @@ export async function POST(request: Request) {
     }
 
     // Format the prompt properly for JUJUBE
-    const formattedPrompt = `JUJUBE is a Chinese teenage boy, ${prompt}, realistic cartoon style, high quality`;
+    const formattedPrompt = `JUJUBE is a Chinese male, ${prompt}, realistic cartoonish style, high quality`;
     console.log("Formatted prompt:", formattedPrompt);
 
     // Run the model
