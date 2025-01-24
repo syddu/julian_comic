@@ -1,10 +1,5 @@
 import { NextResponse } from 'next/server';
 
-interface Panel {
-  prompt: string;
-  dialogue: string;
-}
-
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -12,10 +7,10 @@ export async function POST(request: Request) {
 
     let prompt;
     if (!currentPanels || currentPanels.length === 0) {
-      prompt = `Imagine 3 unique actions for Julian to start his adventure. Each action should be a brief sentence with an interesting story idea`;
+      prompt = `Imagine 3 brief actions for Julian to start his adventure. Each action should be a short sentence.`;
     } else {
       const lastPanel = currentPanels[currentPanels.length - 1];
-      prompt = `Based on the previous panel where Julian was: ${lastPanel.prompt}, generate a numbered list of 3 unique events that could happen next to Julian. Each action should be a very brief sentence.`;
+      prompt = `Based on the previous panel where Julian was: ${lastPanel.prompt}, generate 3 brief actions that could happen next. Each action should be a short sentence.`;
     }
 
     try {
@@ -27,10 +22,10 @@ export async function POST(request: Request) {
         body: JSON.stringify({
           model: 'tinyllama',
           prompt: prompt,
-          system: `Generate exactly 3 unique bullet points. Each bullet should be a single, concise sentence starting with "Julian" and containing an action or event. Do not include sub-points. Format the response as:
-1. Julian [unique action]?
-2. Julian [unique action]?
-3. Julian [unique action]?`,
+          system: `Generate exactly 3 brief actions. Each action should be a single, concise sentence starting with "Julian" and containing a unique action or event. Format the response as:
+1. Julian [action].
+2. Julian [action].
+3. Julian [action].`,
           stream: false
         })
       });
@@ -42,17 +37,19 @@ export async function POST(request: Request) {
       const data = await response.json();
       return NextResponse.json({ suggestions: data.response });
 
-    } catch (error) {
+    } catch {
       return NextResponse.json({ 
         suggestions: currentPanels?.length === 0 
-          ? "1. How about Julian discovering a magical compass?\n2. How about Julian exploring a secret cave?\n3. How about Julian meeting a friendly dragon?"
-          : "1. How about Julian finding a secret door?\n2. How about Julian following mysterious footprints?"
+          ? "1. Julian finds a compass.\n2. Julian enters a cave.\n3. Julian meets a dragon."
+          : "1. Julian finds a door.\n2. Julian follows footprints.",
+        error: "An unexpected error occurred"
       });
     }
 
-  } catch (error) {
+  } catch {
     return NextResponse.json({ 
-      suggestions: "1. How about Julian finding a magical compass?\n2. How about Julian discovering a secret door?"
+      suggestions: "1. Julian finds a compass.\n2. Julian discovers a door.",
+      error: "An unexpected error occurred"
     });
   }
 }

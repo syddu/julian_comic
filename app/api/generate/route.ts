@@ -47,13 +47,14 @@ export async function POST(request: Request) {
     );
 
     console.log("Raw output:", output);
-
-    // Similar to Python's str(output[0])
-    const imageUrl = String(output[0]);
+    const imageUrl = Array.isArray(output) && output.length > 0 ? String(output[0]) : null;
     console.log("Image URL:", imageUrl);
 
     if (!imageUrl) {
-      throw new Error("No image URL generated");
+      return NextResponse.json(
+        { error: "No image URL generated" },
+        { status: 500 }
+      );
     }
 
     return NextResponse.json({ imageUrl });
@@ -61,7 +62,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("API error:", error);
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : "Failed to generate image" },
+      { error: "Failed to generate image" },
       { status: 500 }
     );
   }

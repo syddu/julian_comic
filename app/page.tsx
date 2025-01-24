@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import Image from 'next/image';
 
 export default function Home() {
   const [prompt, setPrompt] = useState('');
@@ -88,7 +89,7 @@ export default function Home() {
       }
     } catch (error) {
       console.error("Error generating image:", error);
-      alert(`Failed to generate image: ${error.message}`);
+      alert("Failed to generate image");
     } finally {
       setLoading(false);
     }
@@ -104,7 +105,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-8 bg-[#fdf7ff]">
       <h1 className="text-4xl font-bold mb-8 text-center p-4 bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-200 border-4 border-white" style={{ fontFamily: 'Comic Sans MS, cursive' }}>
-        Julian's Comic Adventure!
+        Julian&apos;s Comic Adventure!
       </h1>
       
       {/* Comic Grid */}
@@ -113,10 +114,12 @@ export default function Home() {
           <div key={index} className="aspect-square border-4 border-purple-400 rounded-2xl p-2 relative bg-white shadow-lg transform hover:scale-105 transition-transform duration-200 max-h-[300px]">
             {images[index] ? (
               <>
-                <img 
+                <Image 
                   src={images[index].url} 
                   alt={`Panel ${index + 1}`}
-                  className="w-full h-[85%] object-cover rounded-xl"
+                  layout="fill"
+                  objectFit="cover"
+                  className="rounded-xl"
                 />
                 <div 
                   className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-purple-600 to-purple-600/70 p-2 text-white text-center rounded-b-xl font-bold min-h-[15%] flex items-center justify-center"
@@ -147,14 +150,14 @@ export default function Home() {
               type="text"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
-              placeholder="Describe Julian's action..."
+              placeholder="Describe Julian&apos;s action..."
               className="w-full p-4 border-3 border-purple-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-500 bg-purple-50 placeholder-purple-300 text-purple-600 font-medium transition-all duration-200"
               style={{ fontFamily: 'Comic Sans MS, cursive' }}
             />
           </div>
           <div className="space-y-2">
             <label className="block text-pink-600 font-bold mb-2" style={{ fontFamily: 'Comic Sans MS, cursive' }}>
-              What's being said? 💭
+              What&apos;s being said? 💭
             </label>
             <input
               type="text"
